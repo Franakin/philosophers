@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 17:41:34 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/05 19:20:45 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/05 19:27:37 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ void	create_threads(t_var *var)
 	{
 		philos[i].i = i;
 		philos[i].var = var;
-		pthread_create(&philos[i].philo, NULL, routine, &philos[i]);
+		if (pthread_create(&philos[i].philo, NULL, routine, &philos[i]))
+		{
+			var->error = 1;
+			return ;
+		}
 		i++;
 	}
 	i = 0;
