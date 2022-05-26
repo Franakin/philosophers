@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   routine.c                                          :+:    :+:            */
+/*   actions.h                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/05 17:47:22 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/05 19:28:08 by fpurdom       ########   odam.nl         */
+/*   Created: 2022/05/26 15:37:29 by fpurdom       #+#    #+#                 */
+/*   Updated: 2022/05/26 15:38:55 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-#include <stdio.h>
-#include <unistd.h>
+#ifndef ACTIONS_H
+# define ACTIONS_H
 
-void	*routine(void *void_philo)
-{
-	t_philo	*philo;
+# include <pthread.h>
 
-	philo = (t_philo *)void_philo;
-	printf("Philosopher %d created\n", philo->i);
-	return (NULL);
-}
+void	philo_eat(pthread_mutex_t *l_frk, pthread_mutex_t *r_frk, int tt_eat);
+void	philo_sleep(int tt_sleep);
+void	philo_think(int tt_think);
+
+#endif

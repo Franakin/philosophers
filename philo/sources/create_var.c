@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_input.c                                      :+:    :+:            */
+/*   create_var.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:23:49 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/05 15:07:04 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/26 18:35:20 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include "timing_utils.h"
 #include <stdlib.h>
+#include <limits.h>
 
-static unsigned	int	str_to_int(char *str, t_var *var)
+static int	str_to_int(char *str)
 {
 	unsigned int	ret;
 	int				i;
@@ -23,25 +25,39 @@ static unsigned	int	str_to_int(char *str, t_var *var)
 	while (str[i])
 	{
 		if (str[i] < 48 || str[i] > 57)
-		{
-			var->error = 1;
-			return (0);
-		}
+			return (-1);
 		ret = ret * 10 + (str[i] - 48);
+		if (ret > INT_MAX)
+			return (-3);
 		i++;
 	}
-	return (ret);
+	return ((int)ret);
 }
 
-void	create_var(t_var *var, char **args)
+int	create_var(t_var *var, char **args)
 {
-	var->error = 0;
-	var->n_philos = str_to_int(args[1], var);
-	var->tt_die = str_to_int(args[2], var);
-	var->tt_eat = str_to_int(args[3], var);
-	var->tt_sleep = str_to_int(args[4], var);
+	var->exit = 0;
+	var->n_philos = str_to_int(args[1]);
+	if (var->n_philos > 200)
+		return (-2);
+	var->tt_die = str_to_int(args[2]);
+	if (var->tt_die < 0)
+		return (-3);
+	var->tt_eat = str_to_int(args[3]);
+	if (var->tt_eat < 0)
+		return (-3);
+	var->tt_sleep = str_to_int(args[4]);
+	if (var->tt_sleep < 0)
+		return (-3);
 	if (args[5] != NULL)
-		var->cycles = str_to_int(args[5], var);
+	{
+		var->cycles = str_to_int(args[5]);
+		if (var->cycles < 0)
+			return (-3);
+	}
 	else
 		var->cycles = -1;
+	var->start_time = get_start_time(var);
+	pthread_mutex_init(&var->print_mutex, NULL);
+	return (var->exit);
 }

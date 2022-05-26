@@ -1,22 +1,36 @@
 SRC = philo_main.c\
-parse_input.c\
-threads.c\
-routine.c\
+create_var.c\
+create_threads.c\
+start_thread.c\
+exit.c\
+timing_utils.c\
 
-OBJ = $(SRC:.c=.o)
+SDIR = sources
+
+ODIR = objects
+
+OBJ = $(addprefix $(ODIR)/,$(SRC:.c=.o))
 
 NAME = philo
 
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJ)
-	cc -Ipthread $(OBJ) -Wall -Wextra -Werror -o $(NAME)
+	@cc -Ipthread $(OBJ) -Wall -Wextra -Werror -g -o $(NAME)
+	@echo $(NAME)" made"
+
+$(ODIR)/%.o	:	$(SDIR)/%.c
+	@mkdir -p objects
+	@cc -Wall -Werror -Wextra -g -c $< -o $@
 
 clean	:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
+	@rm -rf $(ODIR)
+	@echo $(NAME)" cleaned"
 
 fclean	:	clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo $(NAME)" fcleaned"
 
 re		:	fclean all
 

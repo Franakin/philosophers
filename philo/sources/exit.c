@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   philo_main.c                                       :+:    :+:            */
+/*   errors.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/21 15:15:14 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/05 18:22:36 by fpurdom       ########   odam.nl         */
+/*   Created: 2022/05/26 16:35:45 by fpurdom       #+#    #+#                 */
+/*   Updated: 2022/05/26 17:24:24 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
 #include <stdio.h>
 
-int	main(int argc, char **args)
+int	ft_exit(int code)
 {
-	t_var	var;
-
-	if (argc != 5 && argc != 6)
-	{
+	if (code == -1)
 		printf("Argument count error\n");
-		return (1);
-	}
-	create_var(&var, args);
-	create_threads(&var);
-	if (var.error)
+	else if (code == -2)
+		printf("Philo number exceeds 200\n");
+	else if (code == -3)
+		printf("Error inside one or more arguments\n");
+	else if (code == -4)
+		printf("POSIX thread error\n");
+	else if (code == -5)
+		printf("Error getting time of day\n");
+	else if (code > 0)
 	{
-		printf("An error occured\n");
-		return (1);
+		printf("Philosopher %d has died\n", code);
+		return (0);
 	}
-	return (0);
+	return (code);
 }

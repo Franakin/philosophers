@@ -1,40 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   threads.c                                          :+:    :+:            */
+/*   create_threads.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 17:41:34 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/05 19:27:37 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/26 18:41:46 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
-void	create_threads(t_var *var)
+int	create_threads(t_var *var)
 {
-	int			i;
-	t_philo		philos[200];
+	int		i;
+	t_philo	philos[201];
 
-	i = 0;
-	while (i < var->n_philos)
+	i = 1;
+	while (i <= var->n_philos)
 	{
 		philos[i].i = i;
 		philos[i].var = var;
-		if (pthread_create(&philos[i].philo, NULL, routine, &philos[i]))
-		{
-			var->error = 1;
-			return ;
-		}
+		if (pthread_create(&philos[i].philo, NULL, start_thread, &philos[i]))
+			return (-4);
 		i++;
 	}
-	i = 0;
-	while (i < var->n_philos)
+	i = 1;
+	while (i <= var->n_philos)
 	{
-		pthread_join(philos[i].philo, NULL);
+		if (pthread_join(philos[i].philo, NULL))
+			return (-4);
 		i++;
 	}
+	return (0);
 }
