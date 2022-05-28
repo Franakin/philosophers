@@ -6,11 +6,11 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 15:29:40 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/28 18:40:36 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/28 18:47:32 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "timing_utils.h"
+#include "h/timing_utils.h"
 #include <stdio.h>
 
 void	eat(t_philo *philo)

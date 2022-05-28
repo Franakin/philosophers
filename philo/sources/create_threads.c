@@ -6,13 +6,11 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 17:41:34 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/28 18:15:53 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/28 18:49:19 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
-#include <stdio.h>
+#include "h/philo.h"
 
 static int	init_forks(t_var *var)
 {

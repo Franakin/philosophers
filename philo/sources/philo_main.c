@@ -6,11 +6,11 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:15:14 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/28 18:17:22 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/28 18:47:48 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "h/philo.h"
 
 int	main(int argc, char **args)
 {

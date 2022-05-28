@@ -6,12 +6,12 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 15:43:08 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/28 18:39:34 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/28 18:49:34 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "h/philo.h"
 #include <sys/time.h>
-#include "philo.h"
 
 unsigned long long	get_start_time(t_var *var)
 {

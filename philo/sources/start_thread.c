@@ -6,11 +6,11 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 17:47:22 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/28 18:17:38 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/28 18:47:58 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "h/philo.h"
 
 void	*start_thread(void *void_philo)
 {

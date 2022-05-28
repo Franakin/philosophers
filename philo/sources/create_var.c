@@ -6,14 +6,12 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:23:49 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/28 18:21:58 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/28 18:49:22 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "timing_utils.h"
+#include "h/timing_utils.h"
 #include <limits.h>
-
-#include <stdio.h>
 
 static int	str_to_int(char *str)
 {
