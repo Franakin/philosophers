@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:14:14 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/26 18:32:33 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/28 18:02:59 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,15 @@ typedef struct s_philo
 {
 	int				i;
 	pthread_t		philo;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
 	t_var			*var;
 }				t_philo;
 
 int		create_var(t_var *var, char **args);
 int		create_threads(t_var *var);
 void	*start_thread(void *void_philo);
-void	routine(t_philo *philo, pthread_mutex_t *l_frk, pthread_mutex_t *r_frk);
+void	routine(t_philo *philo);
 int		ft_exit(int code);
 
 #endif

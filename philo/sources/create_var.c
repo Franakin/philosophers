@@ -6,14 +6,14 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:23:49 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/26 18:35:20 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/28 18:21:58 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
 #include "timing_utils.h"
-#include <stdlib.h>
 #include <limits.h>
+
+#include <stdio.h>
 
 static int	str_to_int(char *str)
 {
@@ -25,7 +25,7 @@ static int	str_to_int(char *str)
 	while (str[i])
 	{
 		if (str[i] < 48 || str[i] > 57)
-			return (-1);
+			return (-3);
 		ret = ret * 10 + (str[i] - 48);
 		if (ret > INT_MAX)
 			return (-3);

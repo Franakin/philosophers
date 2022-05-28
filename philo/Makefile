@@ -4,6 +4,8 @@ create_threads.c\
 start_thread.c\
 exit.c\
 timing_utils.c\
+routine.c\
+actions.c\
 
 SDIR = sources
 

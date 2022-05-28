@@ -6,20 +6,53 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 15:29:40 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/26 15:39:03 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/28 18:40:36 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
+#include "timing_utils.h"
+#include <stdio.h>
 
-void	philo_eat(pthread_mutex_t *l_frk, pthread_mutex_t *r_frk, int tt_eat)
+void	eat(t_philo *philo)
 {
+	unsigned long long	time_stamp;
+
+	pthread_mutex_lock(philo->l_fork);
+	time_stamp = get_timestamp(philo->var);
+	pthread_mutex_lock(&philo->var->print_mutex);
+	printf("%llu %d has taken a fork\n", time_stamp, philo->i);
+	pthread_mutex_unlock(&philo->var->print_mutex);
+	pthread_mutex_lock(philo->r_fork);
+	time_stamp = get_timestamp(philo->var);
+	pthread_mutex_lock(&philo->var->print_mutex);
+	printf("%llu %d has taken a fork\n", time_stamp, philo->i);
+	pthread_mutex_unlock(&philo->var->print_mutex);
+	pthread_mutex_lock(&philo->var->print_mutex);
+	printf("%llu %d is eating\n", time_stamp, philo->i);
+	pthread_mutex_unlock(&philo->var->print_mutex);
+	ft_delay((unsigned long long)(philo->var->tt_eat * 1000), philo->var);
+	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(philo->r_fork);
 }
 
-void	philo_sleep(int tt_sleep)
+void	sleep(t_philo *philo)
 {
+	unsigned long long	time_stamp;
+
+	time_stamp = get_timestamp(philo->var);
+	pthread_mutex_lock(&philo->var->print_mutex);
+	printf("%llu %d is sleeping\n", time_stamp, philo->i);
+	pthread_mutex_unlock(&philo->var->print_mutex);
+	ft_delay((unsigned long long)(philo->var->tt_sleep * 1000), philo->var);
 }
 
-void	philo_think(int tt_think)
+void	think(t_philo *philo)
 {
+	unsigned long long	time_stamp;
+
+	time_stamp = get_timestamp(philo->var);
+	pthread_mutex_lock(&philo->var->print_mutex);
+	printf("%llu %d is thinking\n", time_stamp, philo->i);
+	pthread_mutex_unlock(&philo->var->print_mutex);
+	ft_delay(10000, philo->var);
 }
