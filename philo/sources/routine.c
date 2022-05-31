@@ -6,34 +6,34 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 14:04:21 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/28 18:59:06 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/31 19:56:00 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "h/actions.h"
-#include "h/timing_utils.h"
+#include "include/actions.h"
+#include "include/timing_utils.h"
 
-void	routine(t_philo *philo)
+void	*routine(void *void_philo)
 {
+	t_philo			*philo;
+
+	philo = (t_philo *)void_philo;
+	while (!philo->var->start_time)
+		;
 	if (!(philo->i % 2))
-		ft_delay(4000, philo->var);
-	if (philo->var->cycles >= 0)
+		ft_delay(2000, philo->var);
+	if (philo->cycles >= 0)
 	{
-		while (philo->var->cycles > 0 && philo->var->exit == 0)
+		while (philo->cycles > 0 && philo->var->exit == 0)
 		{
-			eat(philo);
-			sleep(philo);
-			think(philo);
-			philo->var->cycles--;
+			do_all_actions(philo);
+			philo->cycles--;
 		}
 	}
 	else
 	{
 		while (philo->var->exit == 0)
-		{
-			eat(philo);
-			sleep(philo);
-			think(philo);
-		}
+			do_all_actions(philo);
 	}
+	return (NULL);
 }

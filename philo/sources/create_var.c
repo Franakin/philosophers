@@ -6,11 +6,11 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:23:49 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/28 18:49:22 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/31 19:52:49 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "h/timing_utils.h"
+#include "include/timing_utils.h"
 #include <limits.h>
 
 static int	str_to_int(char *str)
@@ -55,7 +55,8 @@ int	create_var(t_var *var, char **args)
 	}
 	else
 		var->cycles = -1;
-	var->start_time = get_start_time(var);
-	pthread_mutex_init(&var->print_mutex, NULL);
+	var->start_time = 0;
+	if (pthread_mutex_init(&var->print_mutex, NULL))
+		return (-4);
 	return (var->exit);
 }

@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:14:14 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/28 18:57:06 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/05/31 19:41:23 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,20 @@ typedef struct s_var
 {
 	pthread_mutex_t		fork[201];
 	pthread_mutex_t		print_mutex;
+	unsigned long long	start_time;
+	unsigned long long	t_stamp;
 	int					n_philos;
 	int					tt_die;
 	int					tt_eat;
 	int					tt_sleep;
 	int					cycles;
 	int					exit;
-	unsigned long long	start_time;
 }				t_var;
 
 typedef struct s_philo
 {
 	int				i;
+	int				cycles;
 	pthread_t		philo;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
@@ -39,8 +41,7 @@ typedef struct s_philo
 
 int		create_var(t_var *var, char **args);
 int		create_threads(t_var *var);
-void	*start_thread(void *void_philo);
-void	routine(t_philo *philo);
+void	*routine(void *void_philo);
 int		ft_exit(int code);
 
 #endif

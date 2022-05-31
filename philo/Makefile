@@ -1,7 +1,6 @@
 SRC = philo_main.c\
 create_var.c\
 create_threads.c\
-start_thread.c\
 exit.c\
 timing_utils.c\
 routine.c\
