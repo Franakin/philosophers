@@ -6,25 +6,11 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 17:41:34 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/31 19:52:46 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/01 18:57:27 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/timing_utils.h"
-
-static void	init_philo_vars(t_philo *philo, t_var *var)
-{
-	int	i;
-
-	i = 1;
-	while (i <= var->n_philos)
-	{
-		philo[i].i = i;
-		philo[i].cycles = var->cycles;
-		philo[i].var = var;
-		i++;
-	}
-}
 
 static int	init_forks(t_var *var, t_philo *philo)
 {
@@ -47,14 +33,25 @@ static int	init_forks(t_var *var, t_philo *philo)
 	return (0);
 }
 
-int	create_threads(t_var *var)
+static void	init_philo_vars(t_philo *philo, t_var *var)
 {
-	int		i;
-	t_philo	philo[201];
+	int	i;
 
-	if (init_forks(var, philo))
-		return (-4);
-	init_philo_vars(philo, var);
+	i = 1;
+	while (i <= var->n_philos)
+	{
+		philo[i].i = i;
+		philo[i].cycles = var->cycles;
+		philo[i].var = var;
+		var->lst_meal[i] = 0;
+		i++;
+	}
+}
+
+static int	init_threads(t_philo *philo, t_var *var)
+{
+	int	i;
+
 	i = 1;
 	while (i <= var->n_philos)
 	{
@@ -62,6 +59,8 @@ int	create_threads(t_var *var)
 			return (-4);
 		i++;
 	}
+	if (pthread_create(&var->monitor_thread, NULL, monitor_thread, var))
+		return (-4);
 	var->start_time = get_start_time(var);
 	i = 1;
 	while (i <= var->n_philos)
@@ -70,5 +69,21 @@ int	create_threads(t_var *var)
 			return (-4);
 		i++;
 	}
+	if (pthread_join(var->monitor_thread, NULL))
+		return (-4);
+	return (0);
+}
+
+int	create_threads(t_var *var)
+{
+	t_philo	philo[201];
+
+	if (init_forks(var, philo))
+		return (-4);
+	init_philo_vars(philo, var);
+	var->exit = init_threads(philo, var);
+	if (var->exit)
+		return (var->exit);
+	var->exit = -6;
 	return (0);
 }

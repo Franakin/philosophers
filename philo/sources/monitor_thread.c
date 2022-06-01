@@ -1,42 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   routine.c                                          :+:    :+:            */
+/*   monitor_thread.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/26 14:04:21 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/01 17:57:26 by fpurdom       ########   odam.nl         */
+/*   Created: 2022/06/01 15:15:01 by fpurdom       #+#    #+#                 */
+/*   Updated: 2022/06/01 18:59:51 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/actions.h"
 #include "include/timing_utils.h"
 #include <unistd.h>
-
 #include <stdio.h>
 
-void	*routine(void *void_philo)
+void	*monitor_thread(void *void_var)
 {
-	t_philo			*philo;
+	t_var				*var;
+	int					i;
 
-	philo = (t_philo *)void_philo;
-	while (!philo->var->start_time)
-		usleep(200);
-	if (!(philo->i % 2))
-		ft_delay(2000, philo->var);
-	if (philo->cycles >= 0)
+	var = (t_var *)void_var;
+	while (!var->exit)
 	{
-		while (philo->cycles > 0 && philo->var->exit == 0)
+		i = 1;
+		var->t_stamp = get_timestamp(var);
+		while (i <= var->n_philos)
 		{
-			do_all_actions(philo);
-			philo->cycles--;
+			if (var->lst_meal[i] + var->tt_die <= var->t_stamp)
+			{
+				var->exit = i;
+				break ;
+			}
+			i++;
 		}
+		usleep(200);
 	}
-	else
-	{
-		while (philo->var->exit == 0)
-			do_all_actions(philo);
-	}
+	if (var->exit > 0)
+		printf("%llu %d has died\n", var->t_stamp, i);
 	return (NULL);
 }

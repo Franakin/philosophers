@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   errors.c                                           :+:    :+:            */
+/*   exit.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 16:35:45 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/26 17:24:24 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/01 18:50:14 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ int	ft_exit(int code)
 		printf("POSIX thread error\n");
 	else if (code == -5)
 		printf("Error getting time of day\n");
-	else if (code > 0)
-	{
-		printf("Philosopher %d has died\n", code);
+	else if (code == -6)
 		return (0);
-	}
 	return (code);
 }

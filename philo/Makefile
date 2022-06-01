@@ -5,6 +5,7 @@ exit.c\
 timing_utils.c\
 routine.c\
 actions.c\
+monitor_thread.c\
 
 SDIR = sources
 
