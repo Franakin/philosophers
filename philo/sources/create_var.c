@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:23:49 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/01 17:16:26 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/02 19:31:19 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	create_var(t_var *var, char **args)
 	else
 		var->cycles = -1;
 	var->start_time = 0;
-	if (pthread_mutex_init(&var->print_mutex, NULL))
+	if (pthread_mutex_init(&var->print_mutex, NULL)
+		|| pthread_mutex_init(&var->misc_mutex, NULL))
 		return (-4);
 	return (var->exit);
 }

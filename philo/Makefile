@@ -18,12 +18,12 @@ NAME = philo
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJ)
-	@cc -Ipthread $(OBJ) -Wall -Wextra -Werror -g -o $(NAME)
+	@cc -Ipthread $(OBJ) -Wall -Wextra -Werror -g -o $(NAME) -fsanitize=thread
 	@echo $(NAME)" made"
 
 $(ODIR)/%.o	:	$(SDIR)/%.c
 	@mkdir -p objects
-	@cc -Wall -Werror -Wextra -g -c $< -o $@
+	@cc -Wall -Werror -Wextra -g -c $< -o $@ -fsanitize=thread
 
 clean	:
 	@rm -f $(OBJ)

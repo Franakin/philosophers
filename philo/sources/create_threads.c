@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 17:41:34 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/01 18:57:27 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/02 19:30:18 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ static int	init_threads(t_philo *philo, t_var *var)
 	}
 	if (pthread_create(&var->monitor_thread, NULL, monitor_thread, var))
 		return (-4);
+	pthread_mutex_lock(&var->misc_mutex);
 	var->start_time = get_start_time(var);
+	pthread_mutex_unlock(&var->misc_mutex);
 	i = 1;
 	while (i <= var->n_philos)
 	{
