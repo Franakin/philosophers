@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 14:04:21 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/01 17:57:26 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/02 16:06:00 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,32 @@
 #include "include/timing_utils.h"
 #include <unistd.h>
 
-#include <stdio.h>
+static void	cycled(t_philo *philo)
+{
+	while (philo->cycles > 0 && philo->var->exit == 0)
+	{
+		if (!philo->var->exit)
+			p_eat(philo);
+		if (!philo->var->exit)
+			p_sleep(philo);
+		if (!philo->var->exit)
+			p_think(philo);
+		philo->cycles--;
+	}
+}
+
+static void	uncycled(t_philo *philo)
+{
+	while (philo->var->exit == 0)
+	{
+		if (!philo->var->exit)
+			p_eat(philo);
+		if (!philo->var->exit)
+			p_sleep(philo);
+		if (!philo->var->exit)
+			p_think(philo);
+	}
+}
 
 void	*routine(void *void_philo)
 {
@@ -26,17 +51,8 @@ void	*routine(void *void_philo)
 	if (!(philo->i % 2))
 		ft_delay(2000, philo->var);
 	if (philo->cycles >= 0)
-	{
-		while (philo->cycles > 0 && philo->var->exit == 0)
-		{
-			do_all_actions(philo);
-			philo->cycles--;
-		}
-	}
+		cycled(philo);
 	else
-	{
-		while (philo->var->exit == 0)
-			do_all_actions(philo);
-	}
+		uncycled(philo);
 	return (NULL);
 }

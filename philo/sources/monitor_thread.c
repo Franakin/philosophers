@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/01 15:15:01 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/01 18:59:51 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/02 15:59:38 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*monitor_thread(void *void_var)
 		var->t_stamp = get_timestamp(var);
 		while (i <= var->n_philos)
 		{
-			if (var->lst_meal[i] + var->tt_die <= var->t_stamp)
+			if (var->lst_meal[i] + var->tt_die < var->t_stamp)
 			{
 				var->exit = i;
 				break ;

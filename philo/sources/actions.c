@@ -6,12 +6,14 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 15:29:40 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/01 18:47:58 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/02 16:07:41 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/timing_utils.h"
 #include <stdio.h>
+
+static void	
 
 void	p_eat(t_philo *philo)
 {
@@ -49,14 +51,4 @@ void	p_think(t_philo *philo)
 	if (!philo->var->exit)
 		printf("%llu %d is thinking\n", philo->var->t_stamp, philo->i);
 	pthread_mutex_unlock(&philo->var->print_mutex);
-}
-
-void	do_all_actions(t_philo *philo)
-{
-	if (!philo->var->exit)
-		p_eat(philo);
-	if (!philo->var->exit)
-		p_sleep(philo);
-	if (!philo->var->exit)
-		p_think(philo);
 }

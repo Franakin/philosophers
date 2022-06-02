@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 16:35:45 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/01 18:50:14 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/02 16:07:29 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	ft_exit(int code)
 	else if (code == -3)
 		printf("Error inside one or more arguments\n");
 	else if (code == -4)
-		printf("POSIX thread error\n");
+		printf("POSIX error\n");
 	else if (code == -5)
 		printf("Error getting time of day\n");
-	else if (code == -6)
+	else
 		return (0);
 	return (code);
 }
