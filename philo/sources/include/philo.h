@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:14:14 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/07 19:26:58 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/07 19:48:05 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ typedef struct s_var
 	pthread_t			timestamp_thread;
 	pthread_mutex_t		fork[200];
 	pthread_mutex_t		print_mutex;
-	pthread_mutex_t		misc_mutex;
 	unsigned long long	lst_meal[200];
 	unsigned long long	start_time;
 	unsigned long long	t_stamp;

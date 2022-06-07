@@ -17,21 +17,15 @@ NAME = philo
 
 FLAGS = -Wall -Wextra -Werror
 
-CHECKDATARACES =
-
-ifdef FSANITIZE_THREADS
-CHECKDATARACES = -fsanitize=thread
-endif
-
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJ)
-	@cc -Ipthread $(OBJ) $(FLAGS) -g -o $(NAME) $(CHECKDATARACES)
+	@cc -Ipthread $(OBJ) $(FLAGS) -g -o $(NAME) -fsanitize=thread
 	@echo $(NAME)" made"
 
 $(ODIR)/%.o	:	$(SDIR)/%.c
 	@mkdir -p objects
-	@cc $(FLAGS) -g -c $< -o $@ $(CHECKDATARACES)
+	@cc $(FLAGS) -g -c $< -o $@ -fsanitize=thread
 	@echo "Compiling "$<
 
 clean	:
@@ -44,8 +38,5 @@ fclean	:	clean
 	@echo $(NAME)" fcleaned"
 
 re		:	fclean all
-
-fsanitize	:
-	@make FSANITIZE_THREADS=1
 
 .PHONY	:	all clean fclean re
