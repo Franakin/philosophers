@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 14:04:21 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/02 19:30:37 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/07 19:27:22 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	*routine(void *void_philo)
 		pthread_mutex_unlock(&philo->var->misc_mutex);
 		usleep(200);
 	}
-	if (!(philo->i % 2))
-		ft_delay(2000, philo->var);
+	if (!(philo->n % 2))
+		ft_delay(2000);
 	if (philo->cycles >= 0)
 		cycled(philo);
 	else

@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 15:49:50 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/05/28 16:33:35 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/07 19:06:11 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "philo.h"
 
-void				ft_delay(int ms_delay, t_var *var);
-unsigned long long	get_start_time(t_var *var);
-unsigned long long	get_timestamp(t_var *var);
+void				ft_delay(int ms_delay);
+unsigned long long	get_start_time(void);
+unsigned long long	get_timestamp(unsigned long long *start_time);
 
 #endif

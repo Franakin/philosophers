@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:23:49 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/02 19:31:19 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/07 19:34:35 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ static int	str_to_int(char *str)
 	return ((int)ret);
 }
 
-int	create_var(t_var *var, char **args)
+static int	parse_args(t_var *var, char **args)
 {
-	var->exit = 0;
 	var->n_philos = str_to_int(args[1]);
 	if (var->n_philos > 200)
 		return (-2);
+	else if (var->n_philos < 0)
+		return (-3);
 	var->tt_die = str_to_int(args[2]);
 	if (var->tt_die < 0)
 		return (-3);
@@ -55,6 +56,14 @@ int	create_var(t_var *var, char **args)
 	}
 	else
 		var->cycles = -1;
+	return (0);
+}
+
+int	create_var(t_var *var, char **args)
+{
+	var->exit = parse_args(var, args);
+	if (var->exit)
+		return (var->exit);
 	var->start_time = 0;
 	if (pthread_mutex_init(&var->print_mutex, NULL)
 		|| pthread_mutex_init(&var->misc_mutex, NULL))
