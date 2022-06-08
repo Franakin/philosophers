@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:23:49 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/07 19:47:59 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/08 13:54:54 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,13 @@ static int	parse_args(t_var *var, char **args)
 
 int	create_var(t_var *var, char **args)
 {
-	var->exit = parse_args(var, args);
-	if (var->exit)
-		return (var->exit);
+	int	error_code;
+
+	error_code = parse_args(var, args);
+	if (error_code)
+		return (error_code);
 	var->start_time = 0;
 	if (pthread_mutex_init(&var->print_mutex, NULL))
 		return (-4);
-	return (var->exit);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 15:29:40 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/07 19:53:57 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/08 16:05:24 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,8 @@ int	p_eat(t_philo *philo)
 		return (1);
 	philo->var->lst_meal[philo->n - 1] = philo->var->t_stamp;
 	ft_delay((unsigned long long)philo->var->tt_eat * 1000);
-	if (pthread_mutex_unlock(philo->l_fork))
-		return (1);
-	if (pthread_mutex_unlock(philo->r_fork))
+	if (pthread_mutex_unlock(philo->l_fork)
+		|| pthread_mutex_unlock(philo->r_fork))
 		return (1);
 	return (0);
 }

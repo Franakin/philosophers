@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 17:41:34 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/07 20:07:35 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/08 13:53:19 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,22 @@ static void	init_philo_vars(t_philo *philo, t_var *var)
 	}
 }
 
+static int	join_threads(t_philo *philo, t_var *var)
+{
+	int	i;
+
+	i = 0;
+	while (i < var->n_philos)
+	{
+		if (pthread_join(philo[i].philo, NULL))
+			return (-4);
+		i++;
+	}
+	if (pthread_join(var->monitor_thread, NULL))
+		return (-4);
+	return (0);
+}
+
 static int	init_threads(t_philo *philo, t_var *var)
 {
 	int	i;
@@ -61,20 +77,6 @@ static int	init_threads(t_philo *philo, t_var *var)
 	}
 	if (pthread_create(&var->monitor_thread, NULL, monitor_thread, var))
 		return (-4);
-	if (pthread_mutex_lock(&var->print_mutex))
-		return (-4);
-	var->start_time = get_start_time();
-	if (pthread_mutex_unlock(&var->print_mutex))
-		return (-4);
-	i = 0;
-	while (i < var->n_philos)
-	{
-		if (pthread_join(philo[i].philo, NULL))
-			return (-4);
-		i++;
-	}
-	if (pthread_join(var->monitor_thread, NULL))
-		return (-4);
 	return (0);
 }
 
@@ -85,9 +87,14 @@ int	create_threads(t_var *var)
 	if (init_forks(var, philo))
 		return (-4);
 	init_philo_vars(philo, var);
-	var->exit = init_threads(philo, var);
-	if (var->exit)
-		return (var->exit);
-	var->exit = -6;
+	if (init_threads(philo, var))
+		return (-4);
+	if (pthread_mutex_lock(&var->print_mutex))
+		return (-4);
+	var->start_time = get_start_time();
+	if (pthread_mutex_unlock(&var->print_mutex))
+		return (-4);
+	if (join_threads(philo, var))
+		return (-4);
 	return (0);
 }

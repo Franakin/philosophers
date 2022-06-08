@@ -6,6 +6,7 @@ timing_utils.c\
 routine.c\
 actions.c\
 monitor_thread.c\
+kill_mutexes.c\
 
 SDIR = sources
 
@@ -20,12 +21,12 @@ FLAGS = -Wall -Wextra -Werror
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJ)
-	@cc -Ipthread $(OBJ) $(FLAGS) -g -o $(NAME) -fsanitize=thread
+	@cc -Ipthread $(OBJ) $(FLAGS) -g -o $(NAME)
 	@echo $(NAME)" made"
 
 $(ODIR)/%.o	:	$(SDIR)/%.c
 	@mkdir -p objects
-	@cc $(FLAGS) -g -c $< -o $@ -fsanitize=thread
+	@cc $(FLAGS) -g -c $< -o $@
 	@echo "Compiling "$<
 
 clean	:
