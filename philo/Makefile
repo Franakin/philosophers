@@ -6,7 +6,7 @@ timing_utils.c\
 routine.c\
 actions.c\
 monitor_thread.c\
-kill_mutexes.c\
+unlock_mutexes.c\
 
 SDIR = sources
 
