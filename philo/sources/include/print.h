@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   philo_main.c                                       :+:    :+:            */
+/*   print.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/04/21 15:15:14 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/07/20 14:03:46 by fpurdom       ########   odam.nl         */
+/*   Created: 2022/07/20 14:15:14 by fpurdom       #+#    #+#                 */
+/*   Updated: 2022/07/20 14:35:29 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/philo.h"
-#include "include/unlock_mutexes.h"
+#ifndef PRINT_H
+# define PRINT_H
 
-int	main(int argc, char **args)
-{
-	t_var	var;
-	int		init_exit;
+# include "philo.h"
 
-	if (argc != 5 && argc != 6)
-		return (ft_exit(-1));
-	init_exit = create_var(&var, args);
-	if (init_exit)
-		return (ft_exit(init_exit));
-	init_exit = create_threads(&var);
-	if (init_exit)
-	{
-		unlock_mutexes(&var);
-		return (ft_exit(init_exit));
-	}
-	return (0);
-}
+int	do_print(const char *s, t_var *var, int n, unsigned long long *t);
+
+#endif

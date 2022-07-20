@@ -7,6 +7,7 @@ routine.c\
 actions.c\
 monitor_thread.c\
 unlock_mutexes.c\
+print.c\
 
 SDIR = sources
 

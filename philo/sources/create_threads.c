@@ -6,13 +6,13 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 17:41:34 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/20 17:13:37 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/06/22 15:22:38 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/timing_utils.h"
 
-static int	init_forks(t_var *var, t_philo *philo)
+static int	init_mutexes(t_var *var, t_philo *philo)
 {
 	int	i;
 
@@ -20,6 +20,8 @@ static int	init_forks(t_var *var, t_philo *philo)
 	while (i < var->n_philos)
 	{
 		if (pthread_mutex_init(&var->fork[i], NULL))
+			return (-4);
+		if (pthread_mutex_init(&var->meal_mutex[i], NULL))
 			return (-4);
 		if (var->n_philos == 1)
 			philo[i].l_fork = &var->fork[i];
@@ -64,7 +66,7 @@ static int	join_threads(t_philo *philo, t_var *var)
 	return (0);
 }
 
-static int	init_threads(t_philo *philo, t_var *var)
+static int	init_philo_threads(t_philo *philo, t_var *var)
 {
 	int	i;
 
@@ -75,8 +77,6 @@ static int	init_threads(t_philo *philo, t_var *var)
 			return (-4);
 		i++;
 	}
-	if (pthread_create(&var->monitor_thread, NULL, monitor_thread, var))
-		return (-4);
 	return (0);
 }
 
@@ -84,15 +84,17 @@ int	create_threads(t_var *var)
 {
 	t_philo	philo[200];
 
-	if (init_forks(var, philo))
+	if (init_mutexes(var, philo))
 		return (-4);
 	init_philo_vars(philo, var);
-	if (init_threads(philo, var))
+	if (init_philo_threads(philo, var))
 		return (-4);
 	if (pthread_mutex_lock(&var->print_mutex))
 		return (-4);
 	var->start_time = get_start_time();
 	if (pthread_mutex_unlock(&var->print_mutex))
+		return (-4);
+	if (pthread_create(&var->monitor_thread, NULL, monitor_thread, var))
 		return (-4);
 	if (join_threads(philo, var))
 		return (-4);
