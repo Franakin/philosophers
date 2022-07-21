@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 15:29:40 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/07/20 14:44:48 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/07/21 16:15:21 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	p_eat(t_philo *philo)
 {
 	if (pthread_mutex_lock(philo->l_fork))
 		return (1);
-	if (do_print("has taken a fork", philo->var, philo->n, &philo->start_time))
+	if (print_any("has taken a fork", philo->var, philo->n, &philo->start_time))
 		return (1);
 	if (pthread_mutex_lock(philo->r_fork))
 		return (1);
@@ -27,9 +27,7 @@ int	p_eat(t_philo *philo)
 	philo->var->lst_meal[philo->n - 1] = get_timestamp(&philo->start_time);
 	if (pthread_mutex_unlock(&philo->var->meal_mutex[philo->n - 1]))
 		return (1);
-	if (do_print("has taken a fork", philo->var, philo->n, &philo->start_time))
-		return (1);
-	if (do_print("is eating", philo->var, philo->n, &philo->start_time))
+	if (print_eating(philo->var, philo->n, &philo->start_time))
 		return (1);
 	ft_delay((unsigned long long)philo->var->tt_eat * 1000);
 	if (pthread_mutex_unlock(philo->l_fork)
@@ -40,7 +38,7 @@ int	p_eat(t_philo *philo)
 
 int	p_sleep(t_philo *philo)
 {
-	if (do_print("is sleeping", philo->var, philo->n, &philo->start_time))
+	if (print_any("is sleeping", philo->var, philo->n, &philo->start_time))
 		return (1);
 	ft_delay((unsigned long long)philo->var->tt_sleep * 1000);
 	return (0);
@@ -48,7 +46,7 @@ int	p_sleep(t_philo *philo)
 
 int	p_think(t_philo *philo)
 {
-	if (do_print("is thinking", philo->var, philo->n, &philo->start_time))
+	if (print_any("is thinking", philo->var, philo->n, &philo->start_time))
 		return (1);
 	return (0);
 }

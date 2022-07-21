@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/01 15:15:01 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/07/20 14:50:34 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/07/21 16:13:22 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	death_loop(t_var *var)
 		{
 			if (pthread_mutex_unlock(&var->meal_mutex[i]))
 				return (1);
-			if (do_print("has died", var, i + 1, &var->start_time))
+			if (print_any("has died", var, i + 1, &var->start_time))
 				return (1);
 			if (pthread_mutex_lock(&var->print_mutex))
 				return (1);
