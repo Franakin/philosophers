@@ -6,12 +6,14 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:15:14 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/07/20 14:03:46 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/09/07 17:40:46 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/philo.h"
 #include "include/unlock_mutexes.h"
+
+#include <stdio.h>
 
 int	main(int argc, char **args)
 {
@@ -21,6 +23,8 @@ int	main(int argc, char **args)
 	if (argc != 5 && argc != 6)
 		return (ft_exit(-1));
 	init_exit = create_var(&var, args);
+	if (var.cycles_cpy == 0)
+		return (0);
 	if (init_exit)
 		return (ft_exit(init_exit));
 	init_exit = create_threads(&var);

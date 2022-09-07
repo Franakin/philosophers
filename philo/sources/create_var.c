@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:23:49 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/22 15:13:20 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/09/02 16:31:10 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ static int	parse_args(t_var *var, char **args)
 		return (-3);
 	if (args[5] != NULL)
 	{
-		var->cycles = str_to_int(args[5]);
-		if (var->cycles < 0)
+		var->cycles_cpy = str_to_int(args[5]);
+		if (var->cycles_cpy < 0)
 			return (-3);
 	}
 	else
-		var->cycles = -1;
+		var->cycles_cpy = -1;
 	return (0);
 }
 
@@ -68,7 +68,5 @@ int	create_var(t_var *var, char **args)
 		return (error_code);
 	var->start_time = 0;
 	var->exit = 0;
-	if (pthread_mutex_init(&var->print_mutex, NULL))
-		return (-4);
 	return (0);
 }

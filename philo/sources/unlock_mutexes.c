@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/08 13:59:37 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/22 15:14:54 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/08/31 15:28:19 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*unlock_mutexes(t_var *var)
 	if (!var->exit)
 	{
 		var->exit = -4;
-		printf("POSIX error\n");
+		printf("POSIX error thread\n");
 	}
 	if (pthread_mutex_unlock(&var->print_mutex))
 		return (unlock_mutexes(var));

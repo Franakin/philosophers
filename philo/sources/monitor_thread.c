@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/01 15:15:01 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/07/21 16:13:22 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/09/02 15:29:59 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static int	death_loop(t_var *var)
 	i = 0;
 	while (i < var->n_philos)
 	{
+		if (check_exit(&var->print_mutex, &var->exit))
+			return (1);
 		if (pthread_mutex_lock(&var->meal_mutex[i]))
 			return (1);
 		if (var->lst_meal[i] + var->tt_die < var->t_stamp)
@@ -31,12 +33,8 @@ static int	death_loop(t_var *var)
 				return (1);
 			if (print_any("has died", var, i + 1, &var->start_time))
 				return (1);
-			if (pthread_mutex_lock(&var->print_mutex))
-				return (1);
-			var->exit = 1;
-			if (pthread_mutex_unlock(&var->print_mutex))
-				return (1);
-			return (0);
+			set_exit(&var->print_mutex, &var->exit);
+			return (1);
 		}
 		else if (pthread_mutex_unlock(&var->meal_mutex[i]))
 			return (1);
@@ -55,17 +53,6 @@ void	*monitor_thread(void *void_var)
 		var->t_stamp = get_timestamp(&var->start_time);
 		if (death_loop(var))
 			return (unlock_mutexes(var));
-		if (pthread_mutex_lock(&var->print_mutex))
-			return (unlock_mutexes(var));
-		if (var->exit)
-		{
-			if (pthread_mutex_unlock(&var->print_mutex))
-				return (unlock_mutexes(var));
-			return (NULL);
-		}
-		if (pthread_mutex_unlock(&var->print_mutex))
-			return (unlock_mutexes(var));
 		usleep(200);
 	}
-	return (NULL);
 }

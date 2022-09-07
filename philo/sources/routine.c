@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 14:04:21 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/06/22 15:24:58 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/09/02 16:40:09 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,18 @@ static int	single_cycle(t_philo *philo)
 
 static int	cycled(t_philo *philo)
 {
-	while (philo->cycles > 0)
+	while (1)
 	{
+		if (check_exit(&philo->var->print_mutex, &philo->var->exit))
+			return (0);
 		if (single_cycle(philo))
 			return (1);
-		if (pthread_mutex_lock(&philo->var->print_mutex))
+		if (pthread_mutex_lock(&philo->var->cycle_mutex[philo->n - 1]))
 			return (1);
-		if (philo->var->exit)
-		{
-			if (pthread_mutex_unlock(&philo->var->print_mutex))
-				return (1);
-			return (0);
-		}
-		if (pthread_mutex_unlock(&philo->var->print_mutex))
+		philo->var->cycles[philo->n - 1]--;
+		if (pthread_mutex_unlock(&philo->var->cycle_mutex[philo->n - 1]))
 			return (1);
-		philo->cycles--;
 	}
-	if (pthread_mutex_lock(&philo->var->print_mutex))
-		return (1);
-	philo->var->exit = 1;
-	if (pthread_mutex_unlock(&philo->var->print_mutex))
-		return (1);
 	return (0);
 }
 
@@ -56,17 +47,9 @@ static int	uncycled(t_philo *philo)
 {
 	while (1)
 	{
-		if (single_cycle(philo))
-			return (1);
-		if (pthread_mutex_lock(&philo->var->print_mutex))
-			return (1);
-		if (philo->var->exit)
-		{
-			if (pthread_mutex_unlock(&philo->var->print_mutex))
-				return (1);
+		if (check_exit(&philo->var->print_mutex, &philo->var->exit))
 			return (0);
-		}
-		if (pthread_mutex_unlock(&philo->var->print_mutex))
+		if (single_cycle(philo))
 			return (1);
 	}
 }
@@ -86,12 +69,8 @@ static int	wait_for_threads(t_philo *philo)
 		}
 		if (pthread_mutex_unlock(&philo->var->print_mutex))
 			return (1);
-		if (pthread_mutex_lock(&philo->var->print_mutex))
-			return (1);
-		if (philo->var->exit)
+		if (check_exit(&philo->var->print_mutex, &philo->var->exit))
 			return (0);
-		if (pthread_mutex_unlock(&philo->var->print_mutex))
-			return (1);
 		usleep(200);
 	}
 }
@@ -105,7 +84,7 @@ void	*routine(void *void_philo)
 		return (unlock_mutexes(philo->var));
 	if (!(philo->n % 2))
 		ft_delay(2000);
-	if (philo->cycles >= 0)
+	if (philo->var->cycles_cpy >= 0)
 	{
 		if (cycled(philo))
 			return (unlock_mutexes(philo->var));
