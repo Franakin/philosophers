@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:23:49 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/09/02 16:31:10 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/09/20 18:39:23 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	create_var(t_var *var, char **args)
 	error_code = parse_args(var, args);
 	if (error_code)
 		return (error_code);
+	var->cycles_check = var->n_philos;
 	var->start_time = 0;
 	var->exit = 0;
 	return (0);

@@ -6,7 +6,6 @@ timing_utils.c\
 routine.c\
 actions.c\
 monitor_thread.c\
-cycle_check_thread.c\
 unlock_mutexes.c\
 print.c\
 

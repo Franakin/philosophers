@@ -6,14 +6,12 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/05 17:41:34 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/09/02 16:35:02 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/09/20 18:55:48 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/timing_utils.h"
 #include "include/cycle_check.h"
-
-#include <stdio.h>
 
 static int	init_mutexes(t_var *var, t_philo *philo)
 {
@@ -21,14 +19,14 @@ static int	init_mutexes(t_var *var, t_philo *philo)
 
 	if (pthread_mutex_init(&var->print_mutex, NULL))
 		return (-4);
+	if (pthread_mutex_init(&var->cycle_mutex, NULL))
+		return (-4);
 	i = 0;
 	while (i < var->n_philos)
 	{
 		if (pthread_mutex_init(&var->fork[i], NULL))
 			return (-4);
 		if (pthread_mutex_init(&var->meal_mutex[i], NULL))
-			return (-4);
-		if (pthread_mutex_init(&var->cycle_mutex[i], NULL))
 			return (-4);
 		if (var->n_philos == 1)
 			philo[i].l_fork = &var->fork[i];
@@ -85,9 +83,9 @@ static int	join_threads(t_philo *philo, t_var *var)
 	}
 	if (pthread_join(var->monitor_thread, NULL))
 		return (-4);
-	if (var->cycles_cpy >= 0)
+	/*if (var->cycles_cpy >= 0)
 		if (pthread_join(var->cycle_thread, NULL))
-			return (-4);
+			return (-4);*/
 	return (0);
 }
 
@@ -105,9 +103,9 @@ int	create_threads(t_var *var)
 	var->start_time = get_start_time();
 	if (pthread_mutex_unlock(&var->print_mutex))
 		return (-4);
-	if (var->cycles_cpy >= 0)
+	/*if (var->cycles_cpy >= 0)
 		if (pthread_create(&var->cycle_thread, NULL, cycle_check, var))
-			return (-4);
+			return (-4);*/
 	if (pthread_create(&var->monitor_thread, NULL, monitor_thread, var))
 		return (-4);
 	if (join_threads(philo, var))

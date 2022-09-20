@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/26 14:04:21 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/09/02 16:40:09 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/09/20 18:48:36 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,15 @@ static int	cycled(t_philo *philo)
 			return (0);
 		if (single_cycle(philo))
 			return (1);
-		if (pthread_mutex_lock(&philo->var->cycle_mutex[philo->n - 1]))
-			return (1);
 		philo->var->cycles[philo->n - 1]--;
-		if (pthread_mutex_unlock(&philo->var->cycle_mutex[philo->n - 1]))
-			return (1);
+		if (philo->var->cycles[philo->n - 1] == 0)
+		{
+			if (pthread_mutex_lock(&philo->var->cycle_mutex))
+				return (1);
+			philo->var->cycles_check--;
+			if (pthread_mutex_unlock(&philo->var->cycle_mutex))
+				return (1);
+		}
 	}
 	return (0);
 }

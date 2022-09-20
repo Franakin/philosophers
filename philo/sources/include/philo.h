@@ -6,7 +6,7 @@
 /*   By: fpurdom <fpurdom@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/04/21 15:14:14 by fpurdom       #+#    #+#                 */
-/*   Updated: 2022/09/02 16:29:28 by fpurdom       ########   odam.nl         */
+/*   Updated: 2022/09/20 18:38:55 by fpurdom       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ typedef struct s_var
 	pthread_t			cycle_thread;
 	pthread_mutex_t		fork[200];
 	pthread_mutex_t		meal_mutex[200];
-	pthread_mutex_t		cycle_mutex[200];
+	pthread_mutex_t		cycle_mutex;
 	pthread_mutex_t		print_mutex;
 	unsigned long long	lst_meal[200];
 	unsigned long long	start_time;
 	unsigned long long	t_stamp;
 	int					cycles[200];
 	int					cycles_cpy;
+	int					cycles_check;
 	int					n_philos;
 	int					tt_die;
 	int					tt_eat;
